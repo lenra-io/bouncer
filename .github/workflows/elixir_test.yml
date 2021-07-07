@@ -7,11 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    name: Build and test
+  test:
+    name: Test
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
@@ -22,15 +20,11 @@ jobs:
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
-        path: deps
+        path: |
+            deps
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
     - name: Run tests
       run: mix test
-    - name: Run credo
-      run: mix credo --strict
-    - name: Run dialyzer
-      run: mix dialyzer --format short
-
