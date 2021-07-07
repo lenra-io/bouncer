@@ -1,23 +1,15 @@
-name: Elixir CI
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  dialyzer:
-    name: Dialyzer
-    runs-on: ubuntu-latest
-    steps:
+name: 'Setup elixir project'
+description: 'Allow to clone, get deps and compile with cache'
+runs:
+  using: "composite"
+  steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
       with:
         elixir-version: '1.12' # Define the elixir version [required]
         otp-version: '24' # Define the OTP version [required]
-    - name: Restore dependencies and PLT cache
+    - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
         path: |
@@ -27,5 +19,5 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
-    - name: Run dialyzer
-      run: mix dialyzer --format short
+    - name: Compile project
+      run: mix compile
