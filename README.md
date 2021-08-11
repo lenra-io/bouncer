@@ -10,7 +10,7 @@ by adding `bouncer` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:bouncer, "~> 0.1.0"}
+    {:bouncer, "~> 1.0.0-beta.1"}
   ]
 end
 ```
