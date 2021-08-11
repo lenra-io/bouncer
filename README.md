@@ -98,6 +98,7 @@ In the meantime you can add it to dependancies using git deps
 ```elixir
 def deps do
   [
-    {:bouncer, git: "git@github.com:LenraOfficial/bouncer.git", tag: "v1.0.0-beta.1"}
+    {:bouncer, git: "git@github.com:LenraOfficial/bouncer.git", tag: "v1.0.0-beta.2"}
+  ]
 end
 ```
