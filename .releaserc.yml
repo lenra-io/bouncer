@@ -9,6 +9,16 @@ plugins:
     - preset: conventionalcommits
   - - "@semantic-release/release-notes-generator"
     - preset: conventionalcommits
-  # - "@semantic-release/github"
+  - "@semantic-release/github"
   - - "@semantic-release/exec"
-    - prepareCmd: 'sed -i s/version: "${lastRelease.version}"/version: "${nextRelease.version}"/'' ./mix.exs'
+    - prepareCmd: >
+        sed -i "s/version: \"${lastRelease.version}\"/version: \"${nextRelease.version}\"/g" ./mix.exs &&
+        sed -i "s/~> ${lastRelease.version}/~> ${nextRelease.version}/g" ./README.md
+  - - "@semantic-release/git"
+    - assets:
+        - mix.exs
+        - README.md
+      message: |-
+        chore(release): ${nextRelease.version} [skip ci]
+
+        ${nextRelease.notes}
