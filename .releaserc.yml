@@ -13,7 +13,7 @@ plugins:
   - - "@semantic-release/exec"
     - prepareCmd: >
         sed -i "s/version: \"${lastRelease.version}\"/version: \"${nextRelease.version}\"/g" ./mix.exs &&
-        sed -i "s/~> ${lastRelease.version}/~> ${nextRelease.version}/g" ./README.md
+        sed -i "s/tag: \"v${lastRelease.version}\"/tag: \"v${nextRelease.version}\"/g" ./README.md
   - - "@semantic-release/git"
     - assets:
         - mix.exs
