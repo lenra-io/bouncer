@@ -9,4 +9,6 @@ plugins:
     - preset: conventionalcommits
   - - "@semantic-release/release-notes-generator"
     - preset: conventionalcommits
-  - "@semantic-release/github"
+  # - "@semantic-release/github"
+  - - "@semantic-release/exec"
+    - prepareCmd: 'sed -i s/version: "${lastRelease.version}"/version: "${nextRelease.version}"/'' ./mix.exs'
