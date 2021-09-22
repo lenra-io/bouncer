@@ -9,6 +9,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,7 +18,7 @@ jobs:
         with:
           node-version: "14"
       - name: Setup node deps
-        run: npm i conventional-changelog-conventionalcommits@4 @semantic-release/exec -D
+        run: npm i conventional-changelog-conventionalcommits@4 -D
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
