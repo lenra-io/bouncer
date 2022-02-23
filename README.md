@@ -190,7 +190,7 @@ Distributed under the **MIT** License. See [LICENSE](./LICENSE) for more informa
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - contact@lenra.io
+Lenra - [@lenra_dev](https://twitter.com/lenra_dev) - contact@lenra.io
 
 Project Link: [https://github.com/lenra-io/bouncer](https://github.com/lenra-io/bouncer)
 
@@ -209,5 +209,4 @@ Project Link: [https://github.com/lenra-io/bouncer](https://github.com/lenra-io/
 [issues-url]: https://github.com/lenra-io/bouncer/issues
 [license-shield]: https://img.shields.io/github/license/lenra-io/bouncer.svg?style=for-the-badge
 [license-url]: https://github.com/lenra-io/bouncer/blob/master/LICENSE.txt
-[product-screenshot]: images/screenshot.png
 
