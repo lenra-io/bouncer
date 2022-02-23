@@ -1,12 +1,82 @@
-# Bouncer
+<div id="top"></div>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-Bouncer is a simple library that allow to create permission policy and use them with a simple Bouncer.allow/4 function.
 
-The policy is defined by implementing the ```Bouncer.Policy``` behavior and implementing the ```authorize/3``` function. It has been designed with Phoenix Framework in mind.
+
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+
+
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+
+<h3 align="center">Bouncer</h3>
+
+  <p align="center">
+    Bouncer is a simple library that allow to create your permission policy using a simple behavior. It was built with <a href="https://www.phoenixframework.org/">Phoenix framework</a> in mind but can be adapted to many more situations.<br />
+    Built With <a href="https://elixir-lang.org/">Elixir</a>
+    <!-- <br />
+    <a href="https://github.com/lenra-io/bouncer"><strong>Explore the docs »</strong></a> -->
+    <br />
+    <br />
+    <!-- <a href="https://github.com/lenra-io/bouncer">View Demo</a> ·-->
+    <a href="https://github.com/lenra-io/bouncer/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/lenra-io/bouncer/issues">Request Feature</a>
+  </p>
+</div>
+
+
+
+
+<!-- GETTING STARTED -->
+
+## Installation
+
+The package is curently not available in [hexpm](https://hex.pm/) but we are planning to add it in a near future.
+
+In the meantime you can add it to your project dependancies using git.
+
+```elixir
+def deps do
+  [
+    {:bouncer, git: "https://github.com/lenra-io/bouncer.git", tag: "vx.y.z"}
+  ]
+end
+```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Bouncer is designed around the ```Bouncer.Policy``` behavior. You just have to create a ```MyApp.Policy``` module and implement the ```authorize/3``` function.
+The following example are used with Phoenix controllers.
+
 ```elixir
 
-# First we define the Policy using the behavior
-defmodule MyApp.Policy do
+# First we define the Policy using the behavior for a specific Controller
+defmodule MyApp.MyController.Policy do
   @behaviour Bouncer.Policy
 
   @impl true
@@ -29,24 +99,27 @@ defmodule MyApp.Policy do
   # Good practice, deny everything else baseline.
   def authorize(_, _, _), do: false
 end
+```
 
+Now that the policy is defined, you just have to use ```Bouncer.allow/4``` or ```Bouncer.allow?/4``` to check if the given resource can do the given action with a given metadata.
+
+```elixir
 defmodule MyApp do
-  # then we can use the allow/3 or allow?/3 function to check permissions.
   # The allow/3 function is designed to be used inside the `with` flow control.
   # the allow?/3 function can be use in Enum.filter, if...
   def index do
-    with {:ok, user} <- fetchMyUser(),
+    with {:ok, user} <- fetch_my_user(),
           :ok <- Bouncer.allow(MyApp.Policy, :index, user, nil) do
-      myStuff()
+      do_my_stuff()
     end
   end
 end
 
 ```
 
-You can also create some macro to help you with the boilerplate, especially with the module name, action and the user/resource.
+Since this can add a lot of repetitive code such as fetching user, specify the module and the action, you can also create some macro to help you shorten the ```Bouncer.allow``` call.
 
-Here an example of what you can do. This using macro transform the allow/4 function into a allow/2 function that take the conn and the metadata.
+In this example, we will create a macro that will automatically extract the user from the conn and pass the Policy module and the controller action. This will transform the allow/4 function into a allow/2 function that take the conn and the metadata.
 
 ```elixir
 defmodule MyApp.Policy do
@@ -60,7 +133,7 @@ defmodule MyApp.Policy do
         Bouncer.allow(
           unquote(policy_module),
           Plug.action_name(conn),
-          getMyUserFromConn(conn),
+          get_user(conn),
           params
         )
       end
@@ -70,12 +143,12 @@ end
 
 ```
 
-It can be used on Phoenix controller like that : 
+Then, use it on the Phoenix controller like so
 ```elixir
 defmodule MyApp.MyController do
-  use LenraWeb, :controller
+  use MyApp, :controller
 
-  use LenraWeb.Policy,
+  use MyApp.Policy,
     module: MyApp.MyController.Policy
 
   def index(conn, %{id: resource_id}) do
@@ -89,16 +162,52 @@ defmodule MyApp.MyController do
 end
 ```
 
-## Installation
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-The package is curently not available in hexpm. It will be in near future.
 
-In the meantime you can add it to dependancies using git deps
 
-```elixir
-def deps do
-  [
-    {:bouncer, git: "git@github.com:LenraOfficial/bouncer.git", tag: "vx.y.z"}
-  ]
-end
-```
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please open an issue with the tag "enhancement".
+Don't forget to give the project a star if you liked it! Thanks again!
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the **MIT** License. See [LICENSE](./LICENSE) for more information.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - contact@lenra.io
+
+Project Link: [https://github.com/lenra-io/bouncer](https://github.com/lenra-io/bouncer)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/lenra-io/bouncer.svg?style=for-the-badge
+[contributors-url]: https://github.com/lenra-io/bouncer/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/lenra-io/bouncer.svg?style=for-the-badge
+[forks-url]: https://github.com/lenra-io/bouncer/network/members
+[stars-shield]: https://img.shields.io/github/stars/lenra-io/bouncer.svg?style=for-the-badge
+[stars-url]: https://github.com/lenra-io/bouncer/stargazers
+[issues-shield]: https://img.shields.io/github/issues/lenra-io/bouncer.svg?style=for-the-badge
+[issues-url]: https://github.com/lenra-io/bouncer/issues
+[license-shield]: https://img.shields.io/github/license/lenra-io/bouncer.svg?style=for-the-badge
+[license-url]: https://github.com/lenra-io/bouncer/blob/master/LICENSE.txt
+[product-screenshot]: images/screenshot.png
+
